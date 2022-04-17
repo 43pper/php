@@ -1,14 +1,15 @@
 <html>
-
 <?php
-class generatePage{
-    function __constructor(){
-        $this->getHead();
-        $this->getBody();
+class MainPage
+{
+    private string $html;
+    function __construct(){
+        $this->html = $this->getHead();
+        $this->html.= $this->getBody();
     }
 
-    function getHead(){
-        echo '<head>
+    function getHead() : string{
+        return '
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -17,8 +18,10 @@ class generatePage{
 </head>';
     }
 
-    function getBody(){
-        echo '<body>
+
+    function getBody() : string
+    {
+        return '<body>
     <header>
         <div>ГОЛОВА</div>
     </header>
@@ -31,8 +34,15 @@ class generatePage{
 
 </body>';
     }
+
+    function getPage(){
+        echo $this->html;
+    }
 }
 
+    $page = new MainPage();
+    echo $page->getHead();
+    echo $page->getBody();
 ?>
 
 </html>
