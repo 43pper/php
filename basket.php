@@ -5,6 +5,6 @@
 
     spl_autoload_register("autoload");
 
-    $page = new HomePage();
+    $page = new BasketPage();
     $page->getPage();
 ?>

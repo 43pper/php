@@ -15,10 +15,15 @@ class Page
                     <meta name="viewport"
                         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
                     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+                    <link href="styles/style.css" rel="stylesheet" type="text/css">
                     <title>'.$this->title.'</title>
+                    '.$this->getScripts().'
                 </head>';
     }
 
+    function getScripts() : string{
+        return "";
+    }
 
     function getBody() : string{
         return '<body>'.$this->getHeader().$this->getMain().$this->getFooter().'</body>';
@@ -32,6 +37,7 @@ class Page
 
     function getHeader() : string{
         return '<header>
+                    <div><a href="index.php">додому</a></div>
                     <div>ГОЛОВА</div>
                 </header>';
     }
@@ -43,7 +49,7 @@ class Page
     }
 
     function getPage(){
-        echo "<pageContent>".$this->pageContent."</pageContent>";
+        echo "<html>".$this->pageContent."</html>";
     }
 }
 ?>
