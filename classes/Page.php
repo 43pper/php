@@ -14,9 +14,8 @@ class Page
                     <meta charset="UTF-8">
                     <meta name="viewport" content="width=device-width, initial-scale=1">
                     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-                    <link href="styles/style.css" rel="stylesheet" type="text/css">
                     <link href="styles/bootstrap.css" rel="stylesheet" type="text/css">
-                    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+                    <link href="styles/style.css" rel="stylesheet" type="text/css">
                     <title>'.$this->title.'</title>
                     '.$this->getScripts().'
                 </head>';
@@ -37,16 +36,20 @@ class Page
     }
 
     function getHeader() : string{
-        return '<header>
-                    <div><a href="/index.php">додому</a></div>
-                    <div>ГОЛОВА</div>
-                </header>';
+        return '<div class="header container-fluid sticky-top bg-white">
+                    <header class="container d-flex flex-wrap justify-content-center py-3">
+                        <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+                            <span class="fs-4">KnivesPerfection</span>
+                        </a>
+                        <a href="/basket.php" class="nav-link">Кошик</a>
+                    </header>
+                </div>';
     }
 
     function getFooter() : string{
-        return '<footer>
-                    <div>НОГИ</div>
-                </footer>';
+        return '<div class="container-fluid bg-white text-center py-3 border-top">
+                    2021
+                </div>';
     }
 
     function getPage(){

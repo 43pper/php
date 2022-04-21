@@ -1,3 +1,17 @@
-div{
-    border: 1px salmon dashed;
+.img-small {
+    max-height: 150px;
+}
+svg {
+    position: relative;
+    top: -2px;
+}
+.header {
+    box-shadow: 0 0 3px black;
+    padding-right: 8rem;
+    padding-left: 8rem;
+}
+.body_content {
+    padding-top: 1rem;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    min-height: 100vh;
 }
