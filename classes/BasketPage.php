@@ -46,17 +46,14 @@ class BasketPage extends Page{
 
         $products = [["firebird", "/img/firebird.jpg"], ["ganzo", "/img/ganzo.jpg"], ["truper", "/img/truper.jpg"]];
 
-        if (count($_SESSION) <= count($products)){
-            return $returnString.'<a href="/index.php">Перейти до покупок</a></tbody></table></div></main>';
-        }
-
-        for ($i = 0; $i < 3; $i++){
+        $basketEmpty = true;
+        for ($i = 0; $i < count($products); $i++){
 
             $i_check = $i."_check";
             $i_num = $i."_num";
 
             if (isset($_SESSION[$i_check]) && $_SESSION[$i_check] == "on"){
-
+                $basketEmpty = false;
                 $num = 0;
                 if (isset($_SESSION[$i_num])) {
                     $num  = $_SESSION[$i_num];
@@ -82,6 +79,9 @@ class BasketPage extends Page{
                                     </td>
                                 </tr>';
             }
+        }
+        if ($basketEmpty){
+            return $returnString.'<a href="/index.php">Перейти до покупок</a></tbody></table></div></main>';
         }
         return $returnString.'</tbody></table></div></main>';
     }
