@@ -1,5 +1,5 @@
 <?php
-class Page
+abstract class Page
 {
     private string $pageContent;
     private string $title;
@@ -29,11 +29,7 @@ class Page
         return '<body>'.$this->getHeader().$this->getMain().$this->getFooter().'</body>';
     }
     
-    function getMain() : string{
-        return '<main>
-                    <div>ТІЛО</div>
-                </main>';
-    }
+    abstract function getMain() : string;
 
     function getHeader() : string{
         return '<div class="header container-fluid sticky-top bg-white">
