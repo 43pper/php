@@ -1,2 +1,4 @@
 access.log
 error.log
+.gitignore
+.idea
