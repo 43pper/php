@@ -1,0 +1,37 @@
+/*.header{*/
+/*position: relative;*/
+/*}*/
+
+/*.navigationLine{*/
+/*    position: absolute;*/
+/*    left:33%;*/
+/*    top:0;*/
+/*    height: 100%;*/
+/*    margin:auto;*/
+/*    width: 34%;*/
+/*    justify-content: space-between;*/
+/*}*/
+
+/*.navigationLine img{*/
+/*    width: 70%;*/
+/*    margin-top: 8%;*/
+/*    margin-left: 15%;*/
+/*    position: absolute;*/
+
+/*    transition-duration: 1s;*/
+/*    transition-timing-function: cubic-bezier(0.455, 0.03, 0.515, 0.955);*/
+/*}*/
+
+/*.cart{*/
+/*    margin: 1%;*/
+/*    position: absolute;*/
+/*    right: 0;*/
+/*    width: 20%;*/
+/*    height: 90%;*/
+/*    border-color: black;*/
+/*    border-width: 2px;*/
+/*    border-style: solid;*/
+/*    border-radius: 10px;*/
+/*    font-size: 30pt;*/
+/*}*/
+
