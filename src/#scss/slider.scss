@@ -1,0 +1,19 @@
+@import "settings";
+
+.carouselBlock{
+  margin-top: 1rem;
+  height: 350px;
+  .carousel{
+    height: 100%;
+    .carousel-inner{
+      height: 100%;
+      .carousel-item{
+        height: 100%;
+        img{
+          width: 100%;
+        }
+      }
+    }
+  }
+
+}

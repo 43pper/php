@@ -1,0 +1,233 @@
+@charset "UTF-8";
+@font-face {
+  font-family: icons;
+  font-display: swap;
+  src: url("../fonts/icons.woff2") format("woff2"), url("../fonts/icons.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+}
+[class*=_icon-]:before {
+  font-family: "icons";
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  font-size: 40px;
+  color: white;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+[class*=_icon-]:before {
+  display: block;
+}
+
+._icon-cart:before {
+  content: "";
+}
+
+._icon-like:before {
+  content: "";
+}
+
+._icon-search:before {
+  content: "";
+}
+
+._icon-user:before {
+  content: "";
+}
+
+._icon-home:before {
+  content: "";
+}
+
+._icon-price-tags:before {
+  content: "";
+}
+
+._icon-location:before {
+  content: "";
+}
+
+._icon-plus:before {
+  content: "";
+}
+
+._icon-minus:before {
+  content: "";
+}
+
+._icon-cross:before {
+  content: "";
+}
+
+._icon-checkmark:before {
+  content: "";
+}
+
+._icon-checkmark2:before {
+  content: "";
+}
+
+._icon-arrow-up:before {
+  content: "";
+}
+
+._icon-arrow-up-thin:before {
+  content: "";
+}
+
+._icon-filter:before {
+  content: "";
+}
+
+._icon-google:before {
+  content: "";
+}
+
+._icon-facebook:before {
+  content: "";
+}
+
+._icon-instagram:before {
+  content: "";
+}
+
+._icon-whatsapp:before {
+  content: "";
+}
+
+._icon-telegram:before {
+  content: "";
+}
+
+._icon-twitter:before {
+  content: "";
+}
+
+.header {
+  height: 100px;
+  max-height: 100px;
+  background: rgba(207, 205, 205, 0.8);
+  margin: auto;
+  position: relative;
+  overflow: hidden;
+}
+.header__column {
+  display: inline-block;
+  background: rgba(0, 0, 0, 0.8);
+  height: 100%;
+  border: 2px dotted white;
+  vertical-align: middle;
+}
+.header__column_logo {
+  font-size: 20pt;
+  padding-top: 25px;
+  text-align: center;
+  color: white;
+}
+.header__column_userBar .userBar {
+  margin-top: 25px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: right;
+      -ms-flex-pack: right;
+          justify-content: right;
+}
+.header__column_userBar .userBar .userBar__item {
+  display: inline-block;
+  margin-right: 15px;
+}
+
+.carouselBlock {
+  margin-top: 1rem;
+  height: 350px;
+}
+.carouselBlock .carousel {
+  height: 100%;
+}
+.carouselBlock .carousel .carousel-inner {
+  height: 100%;
+}
+.carouselBlock .carousel .carousel-inner .carousel-item {
+  height: 100%;
+}
+.carouselBlock .carousel .carousel-inner .carousel-item img {
+  width: 100%;
+}
+
+.itemsBlock {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 15px;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+.itemsBlock__itemCard {
+  border: 2px solid black;
+  margin-right: 5rem;
+  margin-bottom: 3rem;
+  display: inline-block;
+  height: 20rem;
+  width: 16.5rem;
+}
+
+.categoriesLine {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+.categoriesLine__item {
+  margin-right: 15px;
+}
+
+.btn-activated {
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+
+.btn-dark {
+  color: #fff;
+  background-color: #212529;
+  border-color: #212529;
+}
+
+.btn-dark:hover {
+  color: #fff;
+  background-color: #1c1f23;
+  border-color: #1a1e21;
+}
+
+.btn-check:focus + .btn-dark, .btn-dark:focus {
+  color: #fff;
+  background-color: #1c1f23;
+  border-color: #1a1e21;
+  -webkit-box-shadow: 0 0 0 0.25rem gold;
+          box-shadow: 0 0 0 0.25rem gold;
+}
+
+.btn-check:checked + .btn-dark, .btn-check:active + .btn-dark, .btn-dark:active, .btn-dark.active, .show > .btn-dark.dropdown-toggle {
+  color: #fff;
+  background-color: #1a1e21;
+  border-color: #191c1f;
+}
+
+.btn-check:checked + .btn-dark:focus, .btn-check:active + .btn-dark:focus, .btn-dark:active:focus, .btn-dark.active:focus, .show > .btn-dark.dropdown-toggle:focus {
+  -webkit-box-shadow: 0 0 0 0.25rem rgba(66, 70, 73, 0.5);
+          box-shadow: 0 0 0 0.25rem rgba(66, 70, 73, 0.5);
+}
+
+.btn-dark:disabled, .btn-dark.disabled {
+  color: #fff;
+  background-color: #212529;
+  border-color: #212529;
+}
