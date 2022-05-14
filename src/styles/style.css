@@ -186,48 +186,33 @@
   display: -ms-flexbox;
   display: flex;
 }
-.categoriesLine__item {
-  margin-right: 15px;
-}
 
-.btn-activated {
-  -webkit-box-shadow: none;
-          box-shadow: none;
-}
-
-.btn-dark {
-  color: #fff;
-  background-color: #212529;
-  border-color: #212529;
-}
-
-.btn-dark:hover {
-  color: #fff;
-  background-color: #1c1f23;
-  border-color: #1a1e21;
-}
-
-.btn-check:focus + .btn-dark, .btn-dark:focus {
+.btn-check:focus + .btn-outline-dark, .btn-outline-dark:focus {
   color: #fff;
   background-color: #1c1f23;
   border-color: #1a1e21;
   -webkit-box-shadow: 0 0 0 0.25rem gold;
           box-shadow: 0 0 0 0.25rem gold;
 }
-
-.btn-check:checked + .btn-dark, .btn-check:active + .btn-dark, .btn-dark:active, .btn-dark.active, .show > .btn-dark.dropdown-toggle {
-  color: #fff;
-  background-color: #1a1e21;
-  border-color: #191c1f;
+.btn{
+  border-radius: 0;
 }
+.overlay {
+   position: fixed;
+   display: block;
+   width: 100%;
+   height: 100%;
+   top: 0;
+   left: 0;
+   right: 0;
+   bottom: 0;
 
-.btn-check:checked + .btn-dark:focus, .btn-check:active + .btn-dark:focus, .btn-dark:active:focus, .btn-dark.active:focus, .show > .btn-dark.dropdown-toggle:focus {
-  -webkit-box-shadow: 0 0 0 0.25rem rgba(66, 70, 73, 0.5);
-          box-shadow: 0 0 0 0.25rem rgba(66, 70, 73, 0.5);
+   z-index: 1040;
+ }
+.half-visible{
+  background-color: rgba(0,0,0,0.5);
 }
-
-.btn-dark:disabled, .btn-dark.disabled {
-  color: #fff;
-  background-color: #212529;
-  border-color: #212529;
+.modal-container{
+  position: relative;
+  z-index: 1050;
 }

@@ -3,6 +3,7 @@ import React from "react";
 import CategoriesLine from "./CategoriesLine";
 import ItemsBlock from "./ItemsBlock";
 import "../styles/style.css";
+import Basket from "./Basket";
 
 const Body = () => {
     return (
@@ -10,6 +11,7 @@ const Body = () => {
             <ImageSlider/>
             <CategoriesLine/>
             <ItemsBlock/>
+            <Basket/>
         </div>
     );
 };

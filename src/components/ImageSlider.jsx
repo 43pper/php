@@ -18,13 +18,13 @@ const ImageSlider = () => {
                 </div>
                 <div className="carousel-inner">
                     <div className="carousel-item active">
-                        <img src={knife} className="d-block w-100" alt="..."/>
+                        <img src={knife} className="d-block w-100 position-absolute top-50 start-50 translate-middle" alt="..."/>
                     </div>
                     <div className="carousel-item">
-                        <img src={knife2} className="d-block w-100" alt="..."/>
+                        <img src={knife2} className="d-block w-100 position-absolute top-50 start-50 translate-middle" alt="..."/>
                     </div>
                     <div className="carousel-item">
-                        <img src={knife3} className="d-block w-100" alt="..."/>
+                        <img src={knife3} className="d-block w-100 position-absolute top-50 start-50 translate-middle" alt="..."/>
                     </div>
                 </div>
                 <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"

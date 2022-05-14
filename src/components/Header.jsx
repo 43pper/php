@@ -17,7 +17,7 @@ const Header = () => {
                     <div className="userBar__item col-md-2 favourite _icon-like">
 
                     </div>
-                    <div className="userBar__item col-md-2 cart _icon-cart">
+                    <div className="userBar__item col-md-2 cart _icon-cart" onClick={() => openOverlay()}>
 
                     </div>
                 </div>
@@ -26,5 +26,7 @@ const Header = () => {
         </div>
     );
 };
-
+function openOverlay(){
+    document.getElementById("overlay").style.display = "block";
+}
 export default Header;

@@ -3,12 +3,13 @@ import "../styles/style.css";
 
 const CategoriesLine = () => {
     return (
-        <div className="categoriesLine">
-            <div className="btn-group" role="group" aria-label="Basic example">
-                <button type="button" className="btn btn-dark categoriesLine__item btn-activated">Популярне</button>
-                <button type="button" className="btn btn-dark categoriesLine__item btn-activated">Новинки</button>
-                <button type="button" className="btn btn-dark categoriesLine__item btn-activated">Розпродаж</button>
-            </div>
+        <div className="container d-flex justify-content-center py-3">
+            <input type="radio" className="btn-check" id="option1" name="gender" defaultChecked/>
+                <label className="btn btn-outline-dark btn-activated mx-2" htmlFor="option1">Популярне</label>
+            <input type="radio" className="btn-check" id="option2" name="gender"/>
+                <label className="btn btn-outline-dark btn-activated mx-2" htmlFor="option2">Новинки</label>
+            <input type="radio" className="btn-check" id="option3" name="gender"/>
+                <label className="btn btn-outline-dark btn-activated mx-2" htmlFor="option3">Розпродаж</label>
         </div>
     );
 };
