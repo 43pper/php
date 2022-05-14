@@ -3,7 +3,7 @@ import "../styles/style.css";
 
 const Basket = () => {
     return (
-        <div className="overlay"  id="overlay">
+        <div className="overlay"  id="overlay" style={{display: "none"}}>
             <div className="overlay half-visible" onClick={() => closeOverlay()}>
 
             </div>
