@@ -1,0 +1,83 @@
+%ic {
+  font-family: "icons";
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  font-size: 40px;
+  color: white;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+[class*="_icon-"]{
+  &:before {
+    @extend %ic;
+    display: block;
+  }
+}
+
+._icon-cart:before {
+  content: "\e900";
+}
+._icon-like:before {
+  content: "\e901";
+}
+._icon-search:before {
+  content: "\e902";
+}
+._icon-user:before {
+  content: "\e903";
+}
+._icon-home:before {
+  content: "\e904";
+}
+._icon-price-tags:before {
+  content: "\e936";
+}
+._icon-location:before {
+  content: "\e948";
+}
+._icon-plus:before {
+  content: "\ea0a";
+}
+._icon-minus:before {
+  content: "\ea0b";
+}
+._icon-cross:before {
+  content: "\ea0f";
+}
+._icon-checkmark:before {
+  content: "\ea10";
+}
+._icon-checkmark2:before {
+  content: "\ea11";
+}
+._icon-arrow-up:before {
+  content: "\ea32";
+}
+._icon-arrow-up-thin:before {
+  content: "\ea3a";
+}
+._icon-filter:before {
+  content: "\ea5b";
+}
+._icon-google:before {
+  content: "\ea89";
+}
+._icon-facebook:before {
+  content: "\ea91";
+}
+._icon-instagram:before {
+  content: "\ea92";
+}
+._icon-whatsapp:before {
+  content: "\ea93";
+}
+._icon-telegram:before {
+  content: "\ea95";
+}
+._icon-twitter:before {
+  content: "\ea96";
+}
