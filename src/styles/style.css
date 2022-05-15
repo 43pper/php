@@ -106,18 +106,20 @@
 ._icon-twitter:before {
   content: "";
 }
+._black-icon:before{
+  color: black;
+}
 
 .header {
   height: 100px;
   max-height: 100px;
-  background: rgba(207, 205, 205, 0.8);
+  /*background: rgba(207, 205, 205, 0.8);*/
   margin: auto;
-  position: relative;
   overflow: hidden;
 }
 .header__column {
   display: inline-block;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 1);
   height: 100%;
   border: 2px dotted white;
   vertical-align: middle;
@@ -140,6 +142,7 @@
 .header__column_userBar .userBar .userBar__item {
   display: inline-block;
   margin-right: 15px;
+  cursor: pointer;
 }
 
 .carouselBlock {
@@ -164,16 +167,18 @@
   display: -ms-flexbox;
   display: flex;
   padding: 15px;
+  justify-content: space-between;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
 }
 .itemsBlock__itemCard {
   border: 2px solid black;
-  margin-right: 5rem;
-  margin-bottom: 3rem;
+  margin: 0.5rem;
   display: inline-block;
-  height: 20rem;
+  height: max-content;
   width: 16.5rem;
+  position: relative;
+  max-width: 250px;
 }
 
 .categoriesLine {
@@ -187,32 +192,95 @@
   display: flex;
 }
 
-.btn-check:focus + .btn-outline-dark, .btn-outline-dark:focus {
+.btn-check:focus + .btn-outline-dark, .btn-outline-dark:focus, .btn-dark:focus {
   color: #fff;
   background-color: #1c1f23;
   border-color: #1a1e21;
   -webkit-box-shadow: 0 0 0 0.25rem gold;
           box-shadow: 0 0 0 0.25rem gold;
 }
+.btn-check:active + .btn-outline-dark {
+  box-shadow: 0 0 0 0.25rem rgba(66, 70, 73, 0.5);
+}
 .btn{
   border-radius: 0;
 }
 .overlay {
-   position: fixed;
-   display: block;
-   width: 100%;
-   height: 100%;
-   top: 0;
-   left: 0;
-   right: 0;
-   bottom: 0;
-
-   z-index: 1040;
+  position: fixed;
+  display: block;
+  visibility: visible;
+  opacity: 1;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1040;
+  transition: opacity 200ms;
+  padding: 35px;
  }
+.overlay-hide {
+  opacity: 0;
+  visibility: hidden;
+  width: 0;
+  height: 0;
+  transition: opacity 200ms ease-in;
+}
 .half-visible{
   background-color: rgba(0,0,0,0.5);
+}
+.overlay > .half-visible{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 .modal-container{
   position: relative;
   z-index: 1050;
+  max-width: 750px;
+  overflow-y: scroll;
+}
+.noscroll{
+  overflow: hidden;
+}
+.body{
+  padding-top: 105px;
+}
+.basket-pic{
+  height: 90px;
+}
+.basket-pic img{
+  max-width: 100%;
+  max-height: 100%;
+}
+.number-input::-webkit-outer-spin-button,
+.number-input::-webkit-inner-spin-button{
+  -webkit-appearance: none;
+}
+.number-input{
+  width: 60px;
+}
+.counter-block:before{
+  font-size: 15px;
+  padding: 5px;
+  cursor: pointer;
+}
+.card-hidden{
+  display: none;
+  position: absolute;
+  width: 100%;
+  box-sizing: content-box;
+  margin-top: -5px;
+  margin-left: -2px;
+  background-color: white;
+  border: 2px solid black;
+  border-top: none;
+  padding-bottom: 10px;
+  z-index: 100;
+}
+.itemsBlock__itemCard:hover .card-hidden{
+  display: block;
 }

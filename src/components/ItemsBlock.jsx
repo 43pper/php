@@ -4,10 +4,10 @@ import "../styles/style.css";
 
 const ItemsBlock = (props) => {
     return (
-        <div className="itemsBlock">
-            {props.cards.map(item => <ItemCard title={item.title} description={item.description} image={item.image}/>)}
+        <div className="itemsBlock position-relative">
+            {props.cards.map(item => <ItemCard title={item.title} price={item.price} image={item.image}/>)}
         </div>
     );
 };
-ItemsBlock.defaultProps = {cards: [{title: "title", description: "description", image: "image"}]};
+ItemsBlock.defaultProps = {cards: [{title: "title", price: "price", image: "/images/knife1.jpg"}, {title: "title", price: "price", image: "/images/knife1.jpg"}, {title: "title", price: "price", image: "/images/knife1.jpg"}, {title: "title", price: "price", image: "/images/knife1.jpg"}]};
 export default ItemsBlock;

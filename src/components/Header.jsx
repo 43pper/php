@@ -2,7 +2,7 @@ import React from 'react';
 
 const Header = () => {
     return (
-        <div className="header">
+        <div className="fixed-top header container-fluid col-md-10">
             <div className="header__column header__column_ col-md-5">
 
             </div>
@@ -27,6 +27,7 @@ const Header = () => {
     );
 };
 function openOverlay(){
-    document.getElementById("overlay").style.display = "block";
+    document.getElementById("overlay").classList.remove("overlay-hide");
+    document.getElementsByTagName("body")[0].classList.add("noscroll");
 }
 export default Header;
