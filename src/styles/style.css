@@ -242,6 +242,7 @@
   z-index: 1050;
   max-width: 750px;
   overflow-y: scroll;
+  max-height: 100%;
 }
 .noscroll{
   overflow: hidden;
@@ -267,6 +268,9 @@
   font-size: 15px;
   padding: 5px;
   cursor: pointer;
+}
+.counter-block{
+  user-select: none;
 }
 .card-hidden{
   display: none;

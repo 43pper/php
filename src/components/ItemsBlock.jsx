@@ -2,12 +2,21 @@ import React from 'react';
 import ItemCard from "./ItemCard";
 import "../styles/style.css";
 
-const ItemsBlock = (props) => {
-    return (
-        <div className="itemsBlock position-relative">
-            {props.cards.map(item => <ItemCard title={item.title} price={item.price} image={item.image}/>)}
-        </div>
-    );
-};
-ItemsBlock.defaultProps = {cards: [{title: "title", price: "price", image: "/images/knife1.jpg"}, {title: "title", price: "price", image: "/images/knife1.jpg"}, {title: "title", price: "price", image: "/images/knife1.jpg"}, {title: "title", price: "price", image: "/images/knife1.jpg"}]};
+class ItemsBlock extends React.Component{
+    constructor(props) {
+        super(props);
+        this.updateBasketCallback = this.updateBasketCallback.bind(this);
+    }
+    render() {
+        return <div className="itemsBlock position-relative">
+                {this.props.cards.map(item => <ItemCard title={item.title} price={item.price} image={item.image}
+                                                   bd_id={item.bd_id}
+                                                   updateBasketCallback={this.updateBasketCallback}/>)}
+            </div>
+        ;
+    }
+    updateBasketCallback(){
+        this.props.updateBasketCallback();
+    }
+}
 export default ItemsBlock;
