@@ -1,16 +1,20 @@
 import React from 'react';
 import "./styles/style.css";
-import Body from "./components/Body";
-import Header from "./components/Header";
+import {BrowserRouter, Route} from "react-router-dom";
+import Main from "./pages/Main";
+import Cart from "./pages/Cart";
 
 function App() {
     return (
-        <div className="App">
-            <div className="container-fluid col-md-10">
-                <Header/>
-                <Body/>
-            </div>
-        </div>);
+        <BrowserRouter>
+            <Route path="/">
+                <Main/>
+            </Route>
+            <Route path="/cart">
+                <Cart/>
+            </Route>
+        </BrowserRouter>
+    )
 }
 
 export default App;

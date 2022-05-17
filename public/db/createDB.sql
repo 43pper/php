@@ -1,0 +1,64 @@
+DROP DATABASE IF EXISTS shopdb;
+CREATE DATABASE IF NOT EXISTS shopdb;
+
+USE shopdb;
+
+CREATE TABLE Categories
+(
+	Title VARCHAR(30) NOT NULL PRIMARY KEY
+);
+
+CREATE TABLE Products
+(
+	Id BIGINT NOT NULL auto_increment PRIMARY KEY,
+    Title VARCHAR(40) NOT NULL,
+    Price DOUBLE NOT NULL,
+    Weight DOUBLE NULL,
+    Category VARCHAR(30) NULL,
+    FOREIGN KEY (Category) REFERENCES Categories (Title) ON DELETE SET NULL
+);
+
+CREATE TABLE Users
+(
+	User_login VARCHAR(20) NOT NULL PRIMARY KEY,
+	User_password VARCHAR(20) NOT NULL,
+	FirstName VARCHAR(20) NULL,
+    LastName VARCHAR(30) NULL,
+    Email VARCHAR(50) NOT NULL UNIQUE,
+    Phone VARCHAR(15) NULL UNIQUE
+);
+
+CREATE TABLE Moderators
+(
+	Moderator_login VARCHAR(20) NOT NULL PRIMARY KEY,
+	Moderator_password VARCHAR(20) NOT NULL,
+	FirstName VARCHAR(20) NULL,
+    LastName VARCHAR(30) NULL,
+    Email VARCHAR(50) NOT NULL UNIQUE,
+    Phone VARCHAR(15) NULL UNIQUE
+);
+
+CREATE TABLE Purchases
+(
+	Id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    User_login VARCHAR(20) NOT NULL,
+    Purchase_status VARCHAR(20) NOT NULL DEFAULT "COLLECT",
+    Purchase_date DATETIME NULL,
+    FOREIGN KEY (User_login) REFERENCES Users (User_login) ON DELETE CASCADE
+);
+
+CREATE TABLE Cart
+(
+	Purchase_id BIGINT NOT NULL,
+    Product_id BIGINT NOT NULL,
+	FOREIGN KEY (Purchase_id) REFERENCES Purchases (Id) ON DELETE CASCADE,
+    FOREIGN KEY (Product_id) REFERENCES Products (Id) ON DELETE CASCADE,
+    PRIMARY KEY(Purchase_id, Product_id)
+);
+
+
+
+
+
+
+
