@@ -1,16 +1,16 @@
 import React from 'react';
 import "../styles/style.css";
 import Header from "../components/Header";
-import Body from "../components/Body";
+import CheckoutBody from "../components/CheckoutBody";
 
-function Main(props) {
+function Checkout() {
     return (
         <div className="App">
             <div className="container-fluid col-md-10">
                 <Header/>
-                <Body changeAccountCallback={() => props.changeAccountCallback()}/>
+                <CheckoutBody/>
             </div>
         </div>);
 }
 
-export default Main;
+export default Checkout;

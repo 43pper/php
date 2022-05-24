@@ -5,13 +5,23 @@ import "../styles/style.css";
 class ItemsBlock extends React.Component{
     constructor(props) {
         super(props);
+        this.state = {cards: [{db_id: "11", title: "title", price: "111", image: "/images/knife1.jpg"}]};
         this.updateBasketCallback = this.updateBasketCallback.bind(this);
     }
+    componentDidMount() {
+        fetch(
+            "http://localhost/php/getdata.php",{
+                method: "POST",
+                body: JSON.stringify({action: 'products'})
+            }
+        ).then(response => response.text()).then(responseText => this.setState({cards: JSON.parse(responseText)}));
+    }
+
     render() {
         return <div className="itemsBlock position-relative">
-                {this.props.cards.map(item => <ItemCard title={item.title} price={item.price} image={item.image}
-                                                   bd_id={item.bd_id}
-                                                   updateBasketCallback={this.updateBasketCallback}/>)}
+                {this.state.cards.map(item => <ItemCard key={item.db_id} title={item.title} price={item.price} image={item.image}
+                                                        db_id={item.db_id}
+                                                        updateBasketCallback={this.updateBasketCallback}/>)}
             </div>
         ;
     }

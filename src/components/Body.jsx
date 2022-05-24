@@ -4,6 +4,8 @@ import CategoriesLine from "./CategoriesLine";
 import ItemsBlock from "./ItemsBlock";
 import "../styles/style.css";
 import Basket from "./Basket";
+import LoginForm from "./LoginForm";
+import {Link} from "react-router-dom";
 
 class Body extends React.Component{
     constructor(props) {
@@ -12,16 +14,15 @@ class Body extends React.Component{
         this.updateBasket = this.updateBasket.bind(this);
     }
     render(){
-        let cards = [{bd_id: "11", title: "title", price: "111", image: "/images/knife1.jpg"},
-                {bd_id: "12", title: "title", price: "111", image: "/images/knife1.jpg"},
-                {bd_id: "13", title: "title", price: "111", image: "/images/knife1.jpg"},
-                {bd_id: "14", title: "title", price: "111", image: "/images/knife1.jpg"},
-                {bd_id: "15", title: "title", price: "111", image: "/images/knife1.jpg"}];
         return <div className="body">
+                <nav>
+                    <Link to="/checkout">checkout</Link>
+                </nav>
                 <ImageSlider/>
                 <CategoriesLine/>
-                <ItemsBlock cards={cards} updateBasketCallback={this.updateBasket}/>
-                <Basket basketItems={this.state.basketItems}/>
+                <ItemsBlock updateBasketCallback={this.updateBasket}/>
+                <Basket basketItems={this.state.basketItems} updateBasketCallback={this.updateBasket}/>
+                <LoginForm changeAccountCallback={() => this.props.changeAccountCallback()}/>
             </div>;
     }
     updateBasket(){

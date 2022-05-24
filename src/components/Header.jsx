@@ -11,7 +11,7 @@ const Header = () => {
             </div>
             <div className="header__column header__column_userBar col-md-5">
                 <div className="userBar">
-                    <div className="userBar__item col-md-2 account _icon-user">
+                    <div className="userBar__item col-md-2 account _icon-user" onClick={() => openLoginForm()}>
 
                     </div>
                     <div className="userBar__item col-md-2 favourite _icon-like">
@@ -28,6 +28,10 @@ const Header = () => {
 };
 function openOverlay(){
     document.getElementById("overlay").classList.remove("overlay-hide");
+    document.getElementsByTagName("body")[0].classList.add("noscroll");
+}
+function openLoginForm(){
+    document.getElementById("login-form").classList.remove("overlay-hide");
     document.getElementsByTagName("body")[0].classList.add("noscroll");
 }
 export default Header;

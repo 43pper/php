@@ -10,7 +10,6 @@ class Counter extends React.Component{
         //якщо змінились пропси
         if(this.state === prevState && this.props.count !== this.state.count) {
             this.setState({count: parseInt(this.props.count)});
-
         }
         //якщо змінився стейт
         else if (this.props === prevProps) {

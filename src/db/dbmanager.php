@@ -40,6 +40,8 @@ class DBManager{
 
     //PURCHASES
     private static $GET_ALL_PURCHASES = "SELECT * FROM Purchases";
+    private static $INSERT_INTO_PURCHASES = "INSERT INTO Purchases (User_login, Purchase_status, Purchase_date, FirstName, MiddleName, LastName, Phone, Email, np_SettlementRef, np_WarehouseRef)
+                                                             VALUES(:login, :status, :date, :firstname, :middlename, :lastname, :phone, :email, :city_ref, :warehouse_ref) RETURNING Id";
 
     //CART
     private static $GET_ALL_CARTS = "SELECT * FROM Cart";
@@ -144,6 +146,27 @@ class DBManager{
         try{
             $purchases = $this->db->query(self::$GET_ALL_PURCHASES);
             return $purchases;
+        }
+        catch (PDOException $ex){
+            echo $ex->getMessage();
+        }
+    }
+
+    function insertIntoPurchases($login, $status, $date, $firstname, $middlename, $lastname, $phone, $email, $city_ref, $warehouse_ref){
+        try{
+            $stmt = $this->db->prepare(self::$INSERT_INTO_PURCHASES);
+            $stmt->execute([':login' => $login,
+                ':status' => $status,
+                ':date' => $date,
+                ':firstname' => $firstname,
+                ':middlename' => $middlename,
+                ':lastname' => $lastname,
+                ':phone' => $phone,
+                ':email' => $email,
+                ':city_ref' => $city_ref,
+                ':warehouse_ref' => $warehouse_ref]);
+            $purchaseId = $stmt->fetchAll()["Id"];
+            return $purchaseId;
         }
         catch (PDOException $ex){
             echo $ex->getMessage();

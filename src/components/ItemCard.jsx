@@ -23,7 +23,7 @@ class ItemCard extends React.Component{
     //разом із відриттям корзини кнопкою покупки, оновлюється вміст корзини і зберігається у local storage (типу кукіс,
     // почитай в js на метаніті)
     openOverlay = () => {
-        const users = {bd_id: this.props.bd_id,
+        const users = {db_id: this.props.db_id,
             title: this.props.title,
             price: this.props.price,
             image: this.props.image,
@@ -38,7 +38,7 @@ class ItemCard extends React.Component{
         else {
             let i = 0;
             for (i; i < basketItems.length; i++) {
-                if (basketItems[i].bd_id === this.props.bd_id) {
+                if (basketItems[i].db_id === this.props.db_id) {
                     basketItems[i].count += 1;
                     break;
                 }
