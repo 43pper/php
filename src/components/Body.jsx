@@ -5,29 +5,61 @@ import ItemsBlock from "./ItemsBlock";
 import "../styles/style.css";
 import Basket from "./Basket";
 import LoginForm from "./LoginForm";
-import {Link} from "react-router-dom";
 
-class Body extends React.Component{
+class Body extends React.Component {
     constructor(props) {
         super(props);
         this.state = {basketItems: JSON.parse(localStorage.getItem("basketItems"))};
         this.updateBasket = this.updateBasket.bind(this);
     }
-    render(){
+
+    render() {
         return <div className="body">
-                <nav>
-                    <Link to="/checkout">checkout</Link>
-                </nav>
-                <ImageSlider/>
-                <CategoriesLine/>
-                <ItemsBlock updateBasketCallback={this.updateBasket}/>
-                <Basket basketItems={this.state.basketItems} updateBasketCallback={this.updateBasket}/>
-                <LoginForm changeAccountCallback={() => this.props.changeAccountCallback()}/>
-            </div>;
+            <ImageSlider/>
+            <CategoriesLine/>
+            <ItemsBlock updateBasketCallback={this.updateBasket}/>
+            <Basket basketItems={this.state.basketItems} updateBasketCallback={this.updateBasket}/>
+            <LoginForm changeAccountCallback={() => this.props.changeAccountCallback()}/>
+        </div>;
     }
-    updateBasket(){
+
+    updateBasket() {
         let basketItems = JSON.parse(localStorage.getItem("basketItems"));
-        this.setState({basketItems: basketItems});
+        let isChangedCount = false;
+        fetch(
+            "http://localhost/php/getdata.php", {
+                method: "POST",
+                body: JSON.stringify({
+                    action: "quantity",
+                    products: basketItems.map(item => item.db_id)
+                })
+            }).then(response => response.text()).then(responseText => {
+            let products_with_count = JSON.parse(responseText);
+            for (let i = 0; i < products_with_count.length; i++) {
+                for (let j = 0; j < basketItems.length; j++) {
+                    if (basketItems[j].db_id === products_with_count[i].Id) {
+
+                        basketItems[j].max_count = products_with_count[i].CountInStock;
+
+                        if (basketItems[j].max_count < basketItems[j].count) {
+                            if (basketItems[j].max_count === 0) {
+                                basketItems.splice(j, 1);
+                            } else {
+                                basketItems[j].count = basketItems[j].max_count;
+                            }
+                            isChangedCount = true;
+                        }
+
+                        break;
+                    }
+                }
+            }
+            if (isChangedCount){
+                window.alert("Кількість товарів на складі є меншою за таку у кошику. Перегляньте зміни у кошику.");
+            }
+            this.setState({basketItems: basketItems});
+        })
+
     }
 }
 

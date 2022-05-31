@@ -1,9 +1,9 @@
 import React from 'react';
 import "../styles/style.css";
 import Header from "../components/Header";
-import Body from "../components/Body";
+import CabinetBody from "../components/CabinetBody";
 
-class Main extends React.Component {
+class Cabinet extends React.Component {
     constructor(props) {
         super(props);
         this.state = {login: this.props.login};
@@ -19,11 +19,11 @@ class Main extends React.Component {
         return <div className="App">
             <div className="container-fluid col-md-10">
                 <Header login={this.state.login}/>
-                <Body changeAccountCallback={() => this.props.changeAccountCallback()}/>
+                <CabinetBody changeAccountCallback={() => this.props.changeAccountCallback()}/>
             </div>
         </div>;
     }
 
 }
 
-export default Main;
+export default Cabinet;

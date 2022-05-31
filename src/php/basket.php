@@ -1,7 +1,0 @@
-<?php
-include "./db/dbmanager.php";
-
-    $db = new DBManager();
-    $users = $db->getAllUsers();
-    echo json_encode($users->fetchAll(PDO::FETCH_OBJ));
-?>

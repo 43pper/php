@@ -1,21 +1,20 @@
 <?php
-include dirname(__DIR__)."\db\dbmanager.php";
+include dirname(__DIR__) . "\db\dbmanager.php";
 session_start();
 
 $db = new DBManager();
 $data = json_decode(file_get_contents('php://input'), true);
 $login = "";
 
-if(isset($_SESSION["login"])){
+if (isset($_SESSION["login"])) {
     $login = $_SESSION["login"];
-}
-else{
+} else {
     echo "Invalid login";
     return;
 }
 
 $user = $db->getUserByLogin($login);
-if (count($user) == 0){
+if (count($user) == 0) {
     echo "Invalid login";
     return;
 }
@@ -30,6 +29,8 @@ $db->createPurchase($login,
     $data["email"],
     $data["cityRef"],
     $data["warehouseRef"],
+    $data["cityName"],
+    $data["warehouseName"],
     $data["basketItems"]);
 
 
