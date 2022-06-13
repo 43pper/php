@@ -5,28 +5,34 @@ class DBManager
 
     public static $db = null;
 
+    public static $manager = null;
+
     function __construct()
     {
         $this->connectDB();
     }
 
     public static function getInstance() {
-        if (self::$db == null) {
-            self::connectDB();
+        if (!isset(self::$manager)) {
+            self::$manager = new static();
         }
-        return self::$db;
+        self::connectDB();
+        return self::$manager;
     }
 
     private static function connectDB()
     {
-        try {
-            $line = 'sqlite:' . dirname(__DIR__) . '\db\sqlite\shopdb.db';
-            self::$db = new PDO($line);
-            self::$db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-            self::$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        } catch (PDOException $ex) {
-            echo $ex->getMessage();
-            throw new SQLiteException();
+        if (!isset(self::$db)) {
+            try {
+
+                $line = 'sqlite:' . dirname(__DIR__) . '\db\sqlite\shopdb.db';
+                self::$db = new PDO($line);
+                self::$db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+                self::$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            } catch (PDOException $ex) {
+                echo $ex->getMessage();
+                throw new SQLiteException();
+            }
         }
     }
 
@@ -69,7 +75,7 @@ class DBManager
     function getAllUsers()
     {
         try {
-            $usersSet = $this->db->query(self::$GET_ALL_USERS);
+            $usersSet = static::$db->query(self::$GET_ALL_USERS);
             return $usersSet;
         } catch (PDOException $ex) {
             echo $ex->getMessage();
@@ -79,7 +85,7 @@ class DBManager
     function getUserByLogin($login)
     {
         try {
-            $stmt = $this->db->prepare(self::$GET_USER_BY_LOGIN);
+            $stmt = static::$db->prepare(self::$GET_USER_BY_LOGIN);
             $stmt->execute([':user_login' => $login]);
             $users = $stmt->fetchAll();
             return $users;
@@ -91,7 +97,7 @@ class DBManager
     function updateLogin($login, $new_login)
     {
         try {
-            $stmt = $this->db->prepare(self::$UPDATE_LOGIN);
+            $stmt = static::$db->prepare(self::$UPDATE_LOGIN);
             $stmt->execute([':new_login' => $new_login, ':login' => $login]);
             return "ok";
         } catch (PDOException $ex) {
@@ -102,7 +108,7 @@ class DBManager
     function updatePersonalInformation($login, $first_name, $last_name, $phone, $email)
     {
         try {
-            $stmt = $this->db->prepare(self::$UPDATE_PERSONAL_INFORMATION);
+            $stmt = static::$db->prepare(self::$UPDATE_PERSONAL_INFORMATION);
             $stmt->execute([':first_name' => $first_name, ':last_name' => $last_name, ':phone' => $phone, ':email' => $email, ':login' => $login]);
             return "ok";
         } catch (PDOException $ex) {
@@ -113,7 +119,7 @@ class DBManager
     function updatePassword($login, $new_password)
     {
         try {
-            $stmt = $this->db->prepare(self::$UPDATE_PASSWORD);
+            $stmt = static::$db->prepare(self::$UPDATE_PASSWORD);
             $stmt->execute([':new_password' => $new_password, ':login' => $login]);
             return "ok";
         } catch (PDOException $ex) {
@@ -124,7 +130,7 @@ class DBManager
     function getUserByPurchase()
     {
         try {
-            $user = $this->db->query(self::$GET_USER_BY_PURCHASE);
+            $user = static::$db->query(self::$GET_USER_BY_PURCHASE);
             return $user;
         } catch (PDOException $ex) {
             echo $ex->getMessage();
@@ -134,7 +140,7 @@ class DBManager
     function getAllCategories()
     {
         try {
-            $categories = $this->db->query(self::$GET_ALL_CATEGORIES);
+            $categories = static::$db->query(self::$GET_ALL_CATEGORIES);
             return $categories;
         } catch (PDOException $ex) {
             echo $ex->getMessage();
@@ -144,7 +150,7 @@ class DBManager
     function getAllProducts()
     {
         try {
-            $products = $this->db->query(self::$GET_ALL_PRODUCTS);
+            $products = static::$db->query(static::$GET_ALL_PRODUCTS);
             return $products;
         } catch (PDOException $ex) {
             echo $ex->getMessage();
@@ -156,7 +162,7 @@ class DBManager
         try {
             $products_with_count = [];
             for($i = 0; $i < count($products); $i++){
-                $stmt = $this->db->prepare(self::$GET_PRODUCTS_COUNT_BY_ID);
+                $stmt = static::$db->prepare(self::$GET_PRODUCTS_COUNT_BY_ID);
                 $stmt->execute([':product_id' => $products[$i]]);
                 $products_with_count[] = $stmt->fetchAll()[0];
             }
@@ -169,7 +175,7 @@ class DBManager
     function getProductsByNewness()
     {
         try {
-            $products = $this->db->query(self::$GET_PRODUCTS_BY_NEWNESS);
+            $products = static::$db->query(self::$GET_PRODUCTS_BY_NEWNESS);
             return $products;
         } catch (PDOException $ex) {
             echo $ex->getMessage();
@@ -179,7 +185,7 @@ class DBManager
     function getProductsByCategory($category)
     {
         try {
-            $stmt = $this->db->prepare(self::$GET_PRODUCTS_BY_CATEGORY);
+            $stmt = static::$db->prepare(self::$GET_PRODUCTS_BY_CATEGORY);
             $stmt->execute([':category' => $category]);
             $products = $stmt->fetchAll();
             return $products;
@@ -191,7 +197,7 @@ class DBManager
     function getProductsByPurchase($purchase_id)
     {
         try {
-            $stmt = $this->db->prepare(self::$GET_PRODUCTS_BY_PURCHASE);
+            $stmt = static::$db->prepare(self::$GET_PRODUCTS_BY_PURCHASE);
             $stmt->execute([':purchase_id' => $purchase_id]);
             $products = $stmt->fetchAll();
             return $products;
@@ -203,7 +209,7 @@ class DBManager
     function getAllPurchases()
     {
         try {
-            $purchases = $this->db->query(self::$GET_ALL_PURCHASES);
+            $purchases = static::$db->query(self::$GET_ALL_PURCHASES);
             return $purchases;
         } catch (PDOException $ex) {
             echo $ex->getMessage();
@@ -213,7 +219,7 @@ class DBManager
     function getPurchaseByLogin($login)
     {
         try {
-            $stmt = $this->db->prepare(self::$GET_PURCHASES_BY_LOGIN);
+            $stmt = static::$db->prepare(self::$GET_PURCHASES_BY_LOGIN);
             $stmt->execute([':login' => $login]);
             $purchases = $stmt->fetchAll();
             return $purchases;
@@ -225,9 +231,9 @@ class DBManager
     function createPurchase($login, $status, $date, $firstname, $middlename, $lastname, $phone, $email, $city_ref, $warehouse_ref, $city_name, $warehouse_name, $products): string
     {
         try {
-            $this->db->beginTransaction();
+            static::$db->beginTransaction();
 
-            $stmt = $this->db->prepare(self::$INSERT_INTO_PURCHASES);
+            $stmt = static::$db->prepare(self::$INSERT_INTO_PURCHASES);
             $stmt->execute([':login' => $login,
                 ':status' => $status,
                 ':date' => $date,
@@ -243,23 +249,23 @@ class DBManager
             $purchaseId = $stmt->fetchAll()[0]["Id"];
 
             for ($i = 0; $i < count($products); $i++) {
-                $stmt = $this->db->prepare(self::$UPDATE_PRODUCTS_COUNT);
+                $stmt = static::$db->prepare(self::$UPDATE_PRODUCTS_COUNT);
                 $stmt->execute([':product_id' => $products[$i]["db_id"],
                     ':count' => -$products[$i]["count"]]);
                 if ($stmt->fetchAll()[0]["CountInStock"] < 0) {
-                    $this->db->rollBack();
+                    static::$db->rollBack();
                     return 'not_enough_in_stock';
                 }
 
-                $stmt = $this->db->prepare(self::$INSERT_INTO_CARTS);
+                $stmt = static::$db->prepare(self::$INSERT_INTO_CARTS);
                 $stmt->execute([':purchase_id' => $purchaseId,
                     ':product_id' => $products[$i]["db_id"],
                     ':quantity' => $products[$i]["count"]]);
             }
-            $this->db->commit();
+            static::$db->commit();
             return 'success';
         } catch (PDOException $ex) {
-            $this->db->rollBack();
+            static::$db->rollBack();
             return $ex->getMessage();
         }
     }
@@ -267,40 +273,40 @@ class DBManager
     function deletePurchase($login, $purchase_id): string
     {
         try {
-            $this->db->beginTransaction();
+            static::$db->beginTransaction();
 
-            $stmt = $this->db->prepare(self::$GET_PURCHASES_BY_ID);
+            $stmt = static::$db->prepare(self::$GET_PURCHASES_BY_ID);
             $stmt->execute([':purchase_id' => $purchase_id]);
             $purchase = $stmt->fetchAll();
             if ($purchase[0]["User_login"] != $login) {
-                $this->db->rollBack();
+                static::$db->rollBack();
                 return 'unauthorized';
             }
             if ($purchase[0]["Purchase_status"] != "PROCESSED") {
-                $this->db->rollBack();
+                static::$db->rollBack();
                 return 'wrong_status';
             }
 
-            $stmt = $this->db->prepare(self::$GET_CARTS_BY_PURCHASE);
+            $stmt = static::$db->prepare(self::$GET_CARTS_BY_PURCHASE);
             $stmt->execute([':purchase_id' => $purchase_id]);
             $carts = $stmt->fetchAll();
 
             for ($i = 0; $i < count($carts); $i++) {
-                $stmt = $this->db->prepare(self::$UPDATE_PRODUCTS_COUNT);
+                $stmt = static::$db->prepare(self::$UPDATE_PRODUCTS_COUNT);
                 $stmt->execute([':product_id' => $carts[$i]["Product_id"],
                     ':count' => $carts[$i]["Quantity"]]);
             }
 
-            $stmt = $this->db->prepare(self::$DELETE_FROM_CARTS);
+            $stmt = static::$db->prepare(self::$DELETE_FROM_CARTS);
             $stmt->execute([':purchase_id' => $purchase_id]);
 
-            $stmt = $this->db->prepare(self::$DELETE_FROM_PURCHASES);
+            $stmt = static::$db->prepare(self::$DELETE_FROM_PURCHASES);
             $stmt->execute([':purchase_id' => $purchase_id]);
 
-            $this->db->commit();
+            static::$db->commit();
             return 'success';
         } catch (PDOException $ex) {
-            $this->db->rollBack();
+            static::$db->rollBack();
             return $ex->getMessage();
         }
     }
@@ -308,7 +314,7 @@ class DBManager
     function getAllCarts()
     {
         try {
-            $carts = $this->db->query(self::$GET_ALL_CARTS);
+            $carts = static::$db->query(self::$GET_ALL_CARTS);
             return $carts;
         } catch (PDOException $ex) {
             echo $ex->getMessage();
