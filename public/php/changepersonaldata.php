@@ -20,7 +20,7 @@ function changeLogin($args)
     if (isset($args["new_login"])) {
         $login = $_SESSION["login"];
         $new_login = $args["new_login"];
-        $db = new DBManager();
+        $db = DBManager::getInstance();
         $user = $db->getUserByLogin($login);
         if (count($user) == 0) {
             echo "invalid login";
@@ -46,7 +46,7 @@ function changePassword($args)
         $login = $_SESSION["login"];
         $old_password = $args["old_password"];
         $new_password = $args["new_password"];
-        $db = new DBManager();
+        $db = DBManager::getInstance();
         $user = $db->getUserByLogin($login);
         if (count($user) == 0) {
             echo "invalid login";
@@ -68,7 +68,7 @@ function changePersonalInformation($args)
 {
     if (isset($args["first_name"]) && isset($args["last_name"]) && isset($args["phone"]) && isset($args["email"])) {
         $login = $_SESSION["login"];
-        $db = new DBManager();
+        $db = DBManager::getInstance();
         $user = $db->getUserByLogin($login);
         if (count($user) == 0) {
             echo "invalid login";

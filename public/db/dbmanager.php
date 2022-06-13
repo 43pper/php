@@ -3,24 +3,30 @@
 class DBManager
 {
 
-    public $db = null;
+    public static $db = null;
 
     function __construct()
     {
         $this->connectDB();
     }
 
-    function connectDB()
+    public static function getInstance() {
+        if (self::$db == null) {
+            self::connectDB();
+        }
+        return self::$db;
+    }
+
+    private static function connectDB()
     {
-        if ($this->db == null) {
-            try {
-                $line = 'sqlite:' . dirname(__DIR__) . '\db\sqlite\shopdb.db';
-                $this->db = new PDO($line);
-                $this->db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-                $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            } catch (PDOException $ex) {
-                echo $ex->getMessage();
-            }
+        try {
+            $line = 'sqlite:' . dirname(__DIR__) . '\db\sqlite\shopdb.db';
+            self::$db = new PDO($line);
+            self::$db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+            self::$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        } catch (PDOException $ex) {
+            echo $ex->getMessage();
+            throw new SQLiteException();
         }
     }
 

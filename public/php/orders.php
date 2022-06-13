@@ -3,7 +3,7 @@ include dirname(__DIR__) . "\db\dbmanager.php";
 
 session_start();
 
-$db = new DBManager();
+$db = DBManager::getInstance();
 $data = json_decode(file_get_contents("php://input"), true);
 
 if (!isset($_SESSION["login"])) {
@@ -13,7 +13,7 @@ if (!isset($_SESSION["login"])) {
 
 $login = $_SESSION["login"];
 
-$db = new DBManager();
+$db = DBManager::getInstance();
 $user = $db->getUserByLogin($login);
 if (count($user) == 0) {
     echo "invalid login";

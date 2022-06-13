@@ -1,7 +1,7 @@
 <?php
 include dirname(__DIR__) . "\db\dbmanager.php";
 session_start();
-$db = new DBManager();
+$db = DBManager::getInstance();
 $data = json_decode(file_get_contents('php://input'), true);
 $action = $data['action'];
 $items = [];
@@ -18,7 +18,7 @@ switch ($action) {
         $items = $db->getAllCategories()->fetchAll(PDO::FETCH_OBJ);
         break;
     case 'purchases':
-        $items = $db->getPurchaseByLogin($_SESSION["login"];
+        $items = $db->getPurchaseByLogin($_SESSION["login"]);
         for ($i = 0; $i < count($items); $i++) {
             $items[$i]["Products"] = $db->getProductsByPurchase($items[$i]["Id"]);
         }

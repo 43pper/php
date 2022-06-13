@@ -2,7 +2,7 @@
 include dirname(__DIR__) . "\db\dbmanager.php";
 session_start();
 
-$db = new DBManager();
+$db = DBManager::getInstance();
 $data = json_decode(file_get_contents('php://input'), true);
 $login = "";
 
