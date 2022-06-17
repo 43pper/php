@@ -3,28 +3,29 @@
 class DBManager
 {
 
-    public static $db = null;
+    public static PDO $db;
 
-    public static $manager = null;
+    public static DBManager $manager;
 
     function __construct()
     {
         $this->connectDB();
     }
 
-    public static function getInstance() {
+    public static function getInstance(): static
+    {
         if (!isset(self::$manager)) {
             self::$manager = new static();
         }
         self::connectDB();
+        self::$db->query("PRAGMA foreign_keys = ON");
         return self::$manager;
     }
 
-    private static function connectDB()
+    private static function connectDB(): void
     {
         if (!isset(self::$db)) {
             try {
-
                 $line = 'sqlite:' . dirname(__DIR__) . '\db\sqlite\shopdb.db';
                 self::$db = new PDO($line);
                 self::$db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
@@ -54,6 +55,8 @@ class DBManager
     private static $GET_PRODUCTS_BY_CATEGORY = "SELECT * FROM Products WHERE Products.Category=:category";
     private static $GET_PRODUCTS_BY_PURCHASE = "SELECT * FROM Products JOIN Cart ON Products.Id = Cart.Product_id WHERE Cart.Purchase_id=:purchase_id";
     private static $GET_PRODUCTS_BY_NEWNESS = "SELECT * FROM Products ORDER BY Id DESC";
+    private static $INSERT_INTO_PRODUCTS = "INSERT INTO Products (Title, Price, Weight, Category, Image, CountInStock)
+                                                             VALUES(:title, :price, :weight, :category, :image, :in_stock) RETURNING Id";
     private static $UPDATE_PRODUCTS_COUNT = "UPDATE Products SET CountInStock=CountInStock+:count WHERE Id=:product_id RETURNING CountInStock";
 
 
@@ -71,12 +74,18 @@ class DBManager
     private static $INSERT_INTO_CARTS = "INSERT INTO Cart (Purchase_id, Product_id, Quantity) VALUES(:purchase_id, :product_id, :quantity)";
     private static $DELETE_FROM_CARTS = "DELETE FROM Cart WHERE Purchase_id=:purchase_id";
 
+    //STATISTICS
+    private static $INSERT_INTO_IP_LIST = "INSERT INTO statistics_ip_list (Ip, Date) VALUES (:ip, :date)";
+    private static $DELETE_FROM_IP_LIST_BY_DATE = "DELETE FROM statistics_ip_list WHERE Date!=:date";
+    private static $RESET_STATISTICS = "UPDATE statistics SET hosts=0, hits=0, date=:date WHERE date!=:date";
+    private static $INCREASE_STATISTICS = "UPDATE statistics SET hosts=hosts+:hosts_inc, hits=hits+:hits_inc, total=total+:total_inc";
+    private static $GET_STATISTICS_RECORDS_BY_IP = "SELECT * FROM statistics_ip_list WHERE Ip=:ip";
+    private static $GET_STATISTICS = "SELECT * FROM statistics";
 
     function getAllUsers()
     {
         try {
-            $usersSet = static::$db->query(self::$GET_ALL_USERS);
-            return $usersSet;
+            return static::$db->query(self::$GET_ALL_USERS);
         } catch (PDOException $ex) {
             echo $ex->getMessage();
         }
@@ -87,8 +96,7 @@ class DBManager
         try {
             $stmt = static::$db->prepare(self::$GET_USER_BY_LOGIN);
             $stmt->execute([':user_login' => $login]);
-            $users = $stmt->fetchAll();
-            return $users;
+            return $stmt->fetchAll();
         } catch (PDOException $ex) {
             echo $ex->getMessage();
         }
@@ -130,8 +138,7 @@ class DBManager
     function getUserByPurchase()
     {
         try {
-            $user = static::$db->query(self::$GET_USER_BY_PURCHASE);
-            return $user;
+            return static::$db->query(self::$GET_USER_BY_PURCHASE);
         } catch (PDOException $ex) {
             echo $ex->getMessage();
         }
@@ -140,8 +147,7 @@ class DBManager
     function getAllCategories()
     {
         try {
-            $categories = static::$db->query(self::$GET_ALL_CATEGORIES);
-            return $categories;
+            return static::$db->query(self::$GET_ALL_CATEGORIES);
         } catch (PDOException $ex) {
             echo $ex->getMessage();
         }
@@ -150,8 +156,7 @@ class DBManager
     function getAllProducts()
     {
         try {
-            $products = static::$db->query(static::$GET_ALL_PRODUCTS);
-            return $products;
+            return static::$db->query(static::$GET_ALL_PRODUCTS);
         } catch (PDOException $ex) {
             echo $ex->getMessage();
         }
@@ -161,7 +166,7 @@ class DBManager
     {
         try {
             $products_with_count = [];
-            for($i = 0; $i < count($products); $i++){
+            for ($i = 0; $i < count($products); $i++) {
                 $stmt = static::$db->prepare(self::$GET_PRODUCTS_COUNT_BY_ID);
                 $stmt->execute([':product_id' => $products[$i]]);
                 $products_with_count[] = $stmt->fetchAll()[0];
@@ -175,8 +180,7 @@ class DBManager
     function getProductsByNewness()
     {
         try {
-            $products = static::$db->query(self::$GET_PRODUCTS_BY_NEWNESS);
-            return $products;
+            return static::$db->query(self::$GET_PRODUCTS_BY_NEWNESS);
         } catch (PDOException $ex) {
             echo $ex->getMessage();
         }
@@ -187,8 +191,7 @@ class DBManager
         try {
             $stmt = static::$db->prepare(self::$GET_PRODUCTS_BY_CATEGORY);
             $stmt->execute([':category' => $category]);
-            $products = $stmt->fetchAll();
-            return $products;
+            return $stmt->fetchAll();
         } catch (PDOException $ex) {
             echo $ex->getMessage();
         }
@@ -199,18 +202,36 @@ class DBManager
         try {
             $stmt = static::$db->prepare(self::$GET_PRODUCTS_BY_PURCHASE);
             $stmt->execute([':purchase_id' => $purchase_id]);
-            $products = $stmt->fetchAll();
-            return $products;
+            return $stmt->fetchAll();
         } catch (PDOException $ex) {
             echo $ex->getMessage();
+        }
+    }
+
+    function createProduct($title, $price, $weight, $category, $image, $in_stock): string
+    {
+        try {
+            $stmt = static::$db->prepare(self::$INSERT_INTO_PRODUCTS);
+            $stmt->execute([':title' => $title, ':price' => $price, ':weight' => $weight, ':category' => $category, ':image' => $image, ':in_stock' => $in_stock]);
+
+            $id = $stmt->fetchAll()[0]["Id"];
+
+            $stmt = static::$db->prepare(self::$GET_PRODUCTS_COUNT_BY_ID);
+            $stmt->execute([':product_id' => $id]);
+            if (count($stmt->fetchAll()) == 0) {
+                return "error";
+            }
+
+            return "success";
+        } catch (Exception $ex) {
+            return $ex->getMessage();
         }
     }
 
     function getAllPurchases()
     {
         try {
-            $purchases = static::$db->query(self::$GET_ALL_PURCHASES);
-            return $purchases;
+            return static::$db->query(self::$GET_ALL_PURCHASES);
         } catch (PDOException $ex) {
             echo $ex->getMessage();
         }
@@ -221,8 +242,7 @@ class DBManager
         try {
             $stmt = static::$db->prepare(self::$GET_PURCHASES_BY_LOGIN);
             $stmt->execute([':login' => $login]);
-            $purchases = $stmt->fetchAll();
-            return $purchases;
+            return $stmt->fetchAll();
         } catch (PDOException $ex) {
             echo $ex->getMessage();
         }
@@ -314,14 +334,53 @@ class DBManager
     function getAllCarts()
     {
         try {
-            $carts = static::$db->query(self::$GET_ALL_CARTS);
-            return $carts;
+            return static::$db->query(self::$GET_ALL_CARTS);
         } catch (PDOException $ex) {
             echo $ex->getMessage();
         }
     }
 
+    function resetStatistics(): string
+    {
+        try {
+            $date = date('Y-m-d');
+            $stmt = static::$db->prepare(self::$DELETE_FROM_IP_LIST_BY_DATE);
+            $stmt->execute([':date' => $date]);
+            $stmt = static::$db->prepare(self::$RESET_STATISTICS);
+            $stmt->execute([':date' => $date]);
+            return "success";
+        } catch (PDOException $ex) {
+            return $ex->getMessage();
+        }
+    }
+
+    function UpdateStatistics($ip)
+    {
+        try {
+            static::$db->beginTransaction();
+
+            $date = date('Y-m-d');
+            $stmt = static::$db->prepare(self::$GET_STATISTICS_RECORDS_BY_IP);
+            $stmt->execute([':ip' => $ip]);
+            if (count($stmt->fetchAll()) > 0) {
+                $stmt = static::$db->prepare(self::$INCREASE_STATISTICS);
+                $stmt->execute([':hosts_inc' => 0, ':hits_inc' => 1, 'total_inc' => 1]);
+            } else {
+                $stmt = static::$db->prepare(self::$INSERT_INTO_IP_LIST);
+                $stmt->execute([':ip' => $ip, ':date' => $date]);
+                $stmt = static::$db->prepare(self::$INCREASE_STATISTICS);
+                $stmt->execute([':hosts_inc' => 1, ':hits_inc' => 1, 'total_inc' => 1]);
+            }
+
+            $stmt = static::$db->query(self::$GET_STATISTICS);
+            static::$db->commit();
+
+            return $stmt->fetchAll()[0];
+        } catch (PDOException $ex) {
+            static::$db->rollBack();
+            return $ex->getMessage();
+        }
+    }
+
 
 }
-
-?>

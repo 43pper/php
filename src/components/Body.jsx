@@ -13,8 +13,22 @@ class Body extends React.Component {
         this.updateBasket = this.updateBasket.bind(this);
     }
 
+    componentDidMount() {
+        fetch(
+            "http://localhost/php/countsession.php", { method: "POST"}
+        )
+        fetch("http://localhost/php/countuniquesession.php"
+        ).then(response => response.blob()
+        ).then(blobResponse => {
+            document.getElementById("counter").setAttribute("src", URL.createObjectURL(blobResponse));
+        })
+    }
+
     render() {
         return <div className="body">
+            <div>
+                <img src="#" id="counter" className="counter"/>
+            </div>
             <ImageSlider/>
             <CategoriesLine/>
             <ItemsBlock updateBasketCallback={this.updateBasket}/>

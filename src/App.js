@@ -4,6 +4,7 @@ import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 import Main from "./pages/Main";
 import Checkout from "./pages/Checkout";
 import Cabinet from "./pages/Cabinet"
+import Management from "./pages/Management";
 
 class App extends React.Component {
     constructor() {
@@ -22,6 +23,8 @@ class App extends React.Component {
                            <Checkout changeAccountCallback={this.update} login={this.state.login}/> : <Navigate to="/"/>}></Route>
                 <Route path="/cabinet/*" element={this.hasPermission(['USER', 'MODERATOR']) ?
                     <Cabinet changeAccountCallback={this.update} login={this.state.login}/> : <Navigate to="/"/>}></Route>
+                <Route path="/management/*" element={this.hasPermission(['MODERATOR']) ?
+                    <Management changeAccountCallback={this.update} login={this.state.login}/> : <Navigate to="/"/>}></Route>
             </Routes>
         </BrowserRouter>;
     }

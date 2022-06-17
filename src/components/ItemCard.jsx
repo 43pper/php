@@ -9,7 +9,7 @@ class ItemCard extends React.Component {
 
     render() {
         return <div className="itemsBlock__itemCard text-center">
-            <img src={this.props.image} alt="..." style={{width: "100%"}}/>
+            <img src={this.props.image} alt="..." style={{maxWidth: "100%", height: 160}}/>
             <div className="card-body">
                 <p>{this.props.title}</p>
                 <h4>{this.props.price}</h4>
