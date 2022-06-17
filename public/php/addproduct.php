@@ -16,14 +16,14 @@ if (!isset($args["title"]) || !isset($args["category"]) || !isset($args["price"]
     return;
 }
 
-//$login = $_SESSION["login"];
-//$new_login = $args["new_login"];
+$login = $_SESSION["login"];
+$new_login = $args["new_login"];
 $db = DBManager::getInstance();
-//$user = $db->getUserByLogin($login);
-//if (count($user) == 0) {
-//    echo "invalid login";
-//    return;
-//}
+$user = $db->getUserByLogin($login);
+if (count($user) == 0) {
+    echo "invalid login";
+    return;
+}
 
 
 $name = dirname(__DIR__) . "\images\\" . $_FILES["photo"]["name"];
